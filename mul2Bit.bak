@@ -1,7 +1,7 @@
 
 
 
-//no function? ver.
+//no function?? ver.
 module mul2Bit(x,y,f);
 	input [1:0] x,y;
 	output [3:0] f;
@@ -17,7 +17,7 @@ module mul2Bit(x,y,f);
 	assign f[3] = temp2&temp[2];
 endmodule
 
-//function?? ver.
+//function??? ver.
 module mul2Bit_ha(x,y,f);
 	input [1:0] x,y;
 	output [3:0] f;
