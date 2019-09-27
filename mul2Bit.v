@@ -1,0 +1,49 @@
+
+
+
+//no function ver.
+module mul2Bit(x,y,f);
+	input [1:0] x,y;
+	output [3:0] f;
+	wire [2:0] temp;
+	assign f[0] = x[0]&y[0];
+	assign temp[0] = x[0]&y[1];
+	assign temp[1] = x[1]&y[0];
+	wire temp2;
+	assign f[1] = temp[0]^temp[1];
+	assign temp[2] = x[1]&y[1];
+	assign temp2 = temp[0]&temp[1];
+	assign f[2] = temp2^temp[2];
+	assign f[3] = temp2&temp[2];
+endmodule
+
+//function ver.
+module mul2Bit_ha(x,y,f);
+	input [1:0] x,y;
+	output [3:0] f;
+	wire [2:0] temp;
+	assign f[0] = x[0]&y[0];
+	assign temp[0] = x[0]&y[1];
+	assign temp[1] = x[1]&y[0];
+	wire a,b,c,d;
+	halfAdder ha1(.x(temp[0]), .y(temp[1]),.c(a),.s(b));
+	assign f[1] = b;
+	assign temp[2] = x[1]&y[1];
+	halfAdder ha2(.x(temp[2]), .y(a),.c(c),.s(d));
+	assign f[2] = d;
+	assign f[3] = c;
+endmodule
+
+module fullAdder(cin, x,y, s, cout);
+	input cin, x, y;
+	output s, cout;
+	assign s = x^y^cin;
+	assign cout = (x&y)|(x&cin)|(y&cin);
+endmodule
+
+module halfAdder(x,y,c,s);
+	input x,y;
+	output c,s;
+	assign s = x^y;
+	assign c = x&y;
+endmodule
