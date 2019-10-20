@@ -1,0 +1,102 @@
+module Controller(opcode, funct, ALUSrc, MemWrite, MemRead, Beq, Bne, Jump, MemToReg, RegWrite, ALUControl);
+	input[2:0] opcode, funct;
+	output reg ALUSrc, MemWrite, MemRead, Beq, Bne, Jump, MemToReg, RegWrite;
+	output reg[2:0] ALUControl;
+	always@(*) begin
+		ALUControl <= funct;
+		case(opcode)
+		3'b000: begin	//group1
+			ALUSrc <= 0;	//pop two register
+			//RegDst <= 1;	//push in stack
+      			MemWrite <= 0;
+      			MemRead <= 0;
+      			Beq <= 0;
+      			Bne <= 0;
+      			Jump <= 0;
+      			MemToReg <= 0;   
+			RegWrite <= 1;
+		end
+		3'b100: begin		//group2
+ 			ALUSrc <= 1;	//pop one register
+ 		      //  RegDst <= 1;
+      			MemWrite <= 0;
+      			MemRead <= 0;
+      			Beq <= 0;
+      			Bne <= 0;
+      			Jump <= 0;
+      			MemToReg <= 0;
+      			RegWrite <= 1;
+		end
+		3'b010: begin		//group3. push
+ 			ALUSrc <= 1;	//pop one register
+ 		       // RegDst <= 1;
+      			MemWrite <= 0;
+      			MemRead <= 1;
+      			Beq <= 0;
+      			Bne <= 0;
+      			Jump <= 0;
+      			MemToReg <= 1;
+      			RegWrite <= 1;
+		end
+		3'b110: begin		//group4. pop
+ 			ALUSrc <= 0;	//pop two register
+ 		       // RegDst <= 1;
+      			MemWrite <= 1;
+      			MemRead <= 0;
+      			Beq <= 0;
+      			Bne <= 0;
+      			Jump <= 0;
+      			MemToReg <= 0;
+      			RegWrite <= 0;
+		end
+		3'b001: begin		//group5. eq, gt, leq
+ 			ALUSrc <= 0;	//pop two register
+ 		       // RegDst <= 1;
+      			MemWrite <= 0;
+      			MemRead <= 0;
+      			Beq <= 1;
+      			Bne <= 0;
+      			Jump <= 0;
+      			MemToReg <= 0;
+      			RegWrite <= 1;
+		end
+		3'b011:begin		//group6. branch_zero, branch_nzero
+ 			ALUSrc <= 0;	//pop two register
+ 		       // RegDst <= 1;
+      			MemWrite <= 0;
+      			MemRead <= 0;
+      			Beq <= 0;
+      			Bne <= 0;
+      			Jump <= 1;
+      			MemToReg <= 0;
+      			RegWrite <= 0;
+		end
+		//group7 and group 8 not perfect bit yet.
+
+		3'b101:begin		//group7. push_pc
+ 			ALUSrc <= 0;	//pop two register
+ 		       // RegDst <= 1;
+      			MemWrite <= 1;
+      			MemRead <= 0;
+      			Beq <= 0;
+      			Bne <= 0;
+      			Jump <= 0;
+      			MemToReg <= 0;
+      			RegWrite <= 1;
+		end
+		3'b110:begin		//group8. pop_pc
+ 			ALUSrc <= 1;	//pop one register
+ 		       // RegDst <= 1;
+      			MemWrite <= 0;
+      			MemRead <= 0;
+      			Beq <= 0;
+      			Bne <= 0;
+      			Jump <= 1;
+      			MemToReg <= 0;
+      			RegWrite <= 0;		
+		end
+		endcase
+			
+	end
+endmodule
+
